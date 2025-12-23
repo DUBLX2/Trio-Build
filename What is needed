@@ -1,0 +1,18 @@
+1. Front-End
+  - Closest Event at the top
+  - A tab for (Home, Events, About, Contact) (# Scrollable?)
+  - Search bar for events
+  - Featured Events section
+  - Loaction of event using Googole Maps API
+  - Example (https://www.ticketpro.co.za)
+
+  Further-on
+    - Ticket purchasing system
+    - User profiles
+    - Ticket generation and QR codes (Apple wallet & Google Pay integration)
+
+2. Back-End
+  - Allows users to upload events
+  - User authentication (sign up, log in, log out)
+  - Database to store event details (name, date, location, description, images)
+  - Admin panel to manage events and users
