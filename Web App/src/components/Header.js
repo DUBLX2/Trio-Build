@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NavButtons from './NavButtons';
 import './Header.css';
 
 export default function Header() {
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const links = [
     { label: 'Home', to: '/' },
     { label: 'Events', to: '/events' },
-    { label: 'Shop', to: '/shop' },
     { label: 'Community', to: '/community' },
+    { label: 'Shop', to: '/shop' },
     { label: 'Account', to: '/account' },
     { label: 'Socials', to: '/socials' },
   ];
@@ -35,6 +36,24 @@ export default function Header() {
         <span className="hamburger-line"></span>
       </button>
       <NavButtons links={links} isOpen={menuOpen} onLinkClick={() => setMenuOpen(false)} />
+      <button
+        onClick={() => navigate('/cart')}
+        style={{
+          marginLeft: 'auto',
+          marginRight: '20px',
+          backgroundColor: 'transparent',
+          border: 'none',
+          color: 'white',
+          cursor: 'pointer',
+          fontSize: '24px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '5px'
+        }}
+        title="Shopping Cart"
+      >
+        🛒 Cart
+      </button>
     </header>
   );
 }

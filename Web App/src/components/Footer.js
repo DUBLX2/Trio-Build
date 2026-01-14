@@ -1,12 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Footer() {
+  const navigate = useNavigate();
+
   const openInstagram = () => {
     window.open('https://www.instagram.com/sequencial_reviews?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==', '_blank', 'noopener,noreferrer');
   };
 
   const openEmail = () => {
     window.open('mailto:sequencialreviews@gmail.com', '_blank');
+  };
+
+  const contactUs = () => {
+    navigate('/contact');
   };
 
   return (
@@ -79,6 +86,28 @@ export default function Footer() {
           >
             ✉️ Email Us
           </button>
+
+          <button
+            onClick={contactUs}
+            style={{
+              backgroundColor: '#28a745',
+              color: 'white',
+              border: 'none',
+              padding: '10px 20px',
+              borderRadius: '25px',
+              fontSize: '14px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              transition: 'transform 0.2s'
+            }}
+            onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+          >
+            💬 Contact Us
+          </button>
         </div>
 
         <div style={{
@@ -90,6 +119,46 @@ export default function Footer() {
           <p style={{ margin: '0' }}>
             © 2026 Sequencial Reviews. All rights reserved.
           </p>
+
+          {/* Terms and Privacy Links */}
+          <div style={{
+            marginTop: '15px',
+            paddingTop: '15px',
+            borderTop: '1px solid #444',
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '20px',
+            flexWrap: 'wrap',
+            fontSize: '12px'
+          }}>
+            <a
+              href="#terms"
+              style={{
+                color: '#999',
+                textDecoration: 'none',
+                cursor: 'pointer',
+                transition: 'color 0.2s'
+              }}
+              onMouseOver={(e) => e.target.style.color = '#ccc'}
+              onMouseOut={(e) => e.target.style.color = '#999'}
+            >
+              Terms & Conditions
+            </a>
+            <span style={{ color: '#555' }}>•</span>
+            <a
+              href="#privacy"
+              style={{
+                color: '#999',
+                textDecoration: 'none',
+                cursor: 'pointer',
+                transition: 'color 0.2s'
+              }}
+              onMouseOver={(e) => e.target.style.color = '#ccc'}
+              onMouseOut={(e) => e.target.style.color = '#999'}
+            >
+              Privacy Policy
+            </a>
+          </div>
         </div>
       </div>
     </footer>

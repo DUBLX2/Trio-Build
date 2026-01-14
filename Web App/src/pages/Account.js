@@ -5,6 +5,12 @@ export default function Account() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
+  const [profilePhoto, setProfilePhoto] = useState('https://via.placeholder.com/150');
+  const [userPhotos, setUserPhotos] = useState([
+    'https://via.placeholder.com/300?text=Car+1',
+    'https://via.placeholder.com/300?text=Car+2',
+    'https://via.placeholder.com/300?text=Car+3'
+  ]);
   const [formData, setFormData] = useState({
     username: 'CarEnthusiast',
     email: 'user@example.com',
@@ -55,6 +61,34 @@ export default function Account() {
 
   const handleSaveProfile = () => {
     alert('Profile updated successfully!');
+  };
+
+  const handleProfilePhotoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setProfilePhoto(event.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleUserPhotoUpload = (e) => {
+    const files = e.target.files;
+    if (files) {
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          setUserPhotos(prev => [...prev, event.target.result]);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  };
+
+  const removeUserPhoto = (index) => {
+    setUserPhotos(prev => prev.filter((_, i) => i !== index));
   };
 
   if (!isLoggedIn) {
@@ -252,6 +286,21 @@ export default function Account() {
           Activity
         </button>
         <button
+          onClick={() => setActiveTab('photos')}
+          style={{
+            padding: '12px 20px',
+            border: 'none',
+            borderBottom: activeTab === 'photos' ? '3px solid #007bff' : '3px solid transparent',
+            backgroundColor: 'transparent',
+            cursor: 'pointer',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            color: activeTab === 'photos' ? '#007bff' : '#666'
+          }}
+        >
+          Photos
+        </button>
+        <button
           onClick={() => navigate('/contact')}
           style={{
             padding: '12px 20px',
@@ -277,6 +326,46 @@ export default function Account() {
           padding: '30px'
         }}>
           <h2 style={{ marginTop: 0 }}>Edit Profile</h2>
+
+          {/* Profile Photo Section */}
+          <div style={{ marginBottom: '30px', paddingBottom: '30px', borderBottom: '2px solid #ddd' }}>
+            <h3 style={{ marginTop: 0, marginBottom: '15px' }}>Profile Photo</h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <img 
+                src={profilePhoto} 
+                alt="Profile" 
+                style={{
+                  width: '150px',
+                  height: '150px',
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                  border: '3px solid #007bff'
+                }}
+              />
+              <div>
+                <label style={{
+                  display: 'inline-block',
+                  padding: '10px 20px',
+                  backgroundColor: '#007bff',
+                  color: 'white',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold'
+                }}>
+                  Upload Photo
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleProfilePhotoUpload}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+                <p style={{ fontSize: '12px', color: '#666', marginTop: '10px' }}>
+                  JPG, PNG or GIF (Max 5MB)
+                </p>
+              </div>
+            </div>
+          </div>
 
           <div style={{ marginBottom: '20px' }}>
             <label style={{
@@ -470,6 +559,101 @@ export default function Account() {
               <span style={{ color: '#666', fontSize: '12px' }}>1 week ago</span>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Photos Tab */}
+      {activeTab === 'photos' && (
+        <div style={{
+          backgroundColor: '#f9f9f9',
+          border: '1px solid #ddd',
+          borderRadius: '8px',
+          padding: '30px'
+        }}>
+          <h2 style={{ marginTop: 0 }}>My Photos</h2>
+          
+          <div style={{ marginBottom: '30px', paddingBottom: '30px', borderBottom: '2px solid #ddd' }}>
+            <label style={{
+              display: 'inline-block',
+              padding: '12px 24px',
+              backgroundColor: '#007bff',
+              color: 'white',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontWeight: 'bold',
+              transition: 'background-color 0.2s'
+            }}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#0056b3'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = '#007bff'}
+            >
+              📷 Upload Photos
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleUserPhotoUpload}
+                style={{ display: 'none' }}
+              />
+            </label>
+            <p style={{ fontSize: '12px', color: '#666', marginTop: '10px' }}>
+              You can upload multiple photos at once. Supported formats: JPG, PNG, GIF (Max 5MB each)
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: window.innerWidth <= 768 ? '1fr 1fr' : 'repeat(3, 1fr)',
+            gap: '15px'
+          }}>
+            {userPhotos.map((photo, index) => (
+              <div key={index} style={{ position: 'relative' }}>
+                <img 
+                  src={photo} 
+                  alt={`Photo ${index + 1}`}
+                  style={{
+                    width: '100%',
+                    height: '250px',
+                    objectFit: 'cover',
+                    borderRadius: '8px',
+                    border: '2px solid #ddd'
+                  }}
+                />
+                <button
+                  onClick={() => removeUserPhoto(index)}
+                  style={{
+                    position: 'absolute',
+                    top: '5px',
+                    right: '5px',
+                    backgroundColor: '#dc3545',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '50%',
+                    width: '30px',
+                    height: '30px',
+                    cursor: 'pointer',
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                  title="Delete photo"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {userPhotos.length === 0 && (
+            <div style={{
+              textAlign: 'center',
+              padding: '40px',
+              color: '#999'
+            }}>
+              <p style={{ fontSize: '16px' }}>No photos yet. Upload your first photo!</p>
+            </div>
+          )}
         </div>
       )}
     </section>

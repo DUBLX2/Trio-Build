@@ -10,6 +10,8 @@ import Community from './pages/Community';
 import Account from './pages/Account';
 import Contact from './pages/Contact';
 import Socials from './pages/Socials';
+import ProductDetail from './pages/ProductDetail';
+import Cart from './pages/Cart';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/events" element={<Events />} />
             <Route path="/shop" element={<Shop />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/community" element={<Community />} />
             <Route path="/account" element={<Account />} />
             <Route path="/contact" element={<Contact />} />
