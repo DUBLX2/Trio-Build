@@ -232,4 +232,4 @@ export default client;
 
 ---
 
-**Next Steps:** Let me know when you want to start Phase 2 (Backend), and I can set up the Express server structure!
+
